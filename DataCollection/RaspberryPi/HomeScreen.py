@@ -56,8 +56,8 @@ while(True):
     if hasWriteToDbHour == timenow.hour:
         _thread.start_new_thread(WriteToDb, (timenow, timenow.year,
                                              timenow.month, timenow.day, timenow.hour, temperature, humidity))
-        if hasWriteToDbHour == 12:
-            hasWriteToDbHour = 1
+        if hasWriteToDbHour == 23:
+            hasWriteToDbHour = 0
         else:
             hasWriteToDbHour = hasWriteToDbHour + 1
 
