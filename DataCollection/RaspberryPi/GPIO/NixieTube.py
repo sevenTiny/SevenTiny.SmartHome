@@ -2,9 +2,6 @@
 import sys
 sys.path.append('..')
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import time
 import RPi.GPIO as GPIO
 
