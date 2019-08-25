@@ -1,0 +1,62 @@
+﻿@page
+@model SevenTiny.SmartHome.Pages.DailyMonitors.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>DailyMonitor</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DailyMonitor.DateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DailyMonitor.DateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DailyMonitor.Year)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DailyMonitor.Year)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DailyMonitor.Month)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DailyMonitor.Month)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DailyMonitor.Day)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DailyMonitor.Day)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DailyMonitor.Hour)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DailyMonitor.Hour)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DailyMonitor.Temperature)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DailyMonitor.Temperature)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DailyMonitor.Humidity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DailyMonitor.Humidity)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.DailyMonitor.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

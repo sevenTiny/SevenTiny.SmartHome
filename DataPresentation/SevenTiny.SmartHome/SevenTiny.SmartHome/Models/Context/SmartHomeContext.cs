@@ -44,7 +44,7 @@ namespace SevenTiny.SmartHome.Models
         {
             modelBuilder.Entity<DailyMonitor>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnType("int(11)").IsRequired();
 
                 entity.Property(e => e.DateTime)
                     .HasColumnType("datetime");

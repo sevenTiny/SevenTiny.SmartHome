@@ -1,0 +1,66 @@
+﻿@page
+@model SevenTiny.SmartHome.Pages.DailyMonitors.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>DailyMonitor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DailyMonitor.Id" />
+            <div class="form-group">
+                <label asp-for="DailyMonitor.DateTime" class="control-label"></label>
+                <input asp-for="DailyMonitor.DateTime" class="form-control" />
+                <span asp-validation-for="DailyMonitor.DateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyMonitor.Year" class="control-label"></label>
+                <input asp-for="DailyMonitor.Year" class="form-control" />
+                <span asp-validation-for="DailyMonitor.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyMonitor.Month" class="control-label"></label>
+                <input asp-for="DailyMonitor.Month" class="form-control" />
+                <span asp-validation-for="DailyMonitor.Month" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyMonitor.Day" class="control-label"></label>
+                <input asp-for="DailyMonitor.Day" class="form-control" />
+                <span asp-validation-for="DailyMonitor.Day" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyMonitor.Hour" class="control-label"></label>
+                <input asp-for="DailyMonitor.Hour" class="form-control" />
+                <span asp-validation-for="DailyMonitor.Hour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyMonitor.Temperature" class="control-label"></label>
+                <input asp-for="DailyMonitor.Temperature" class="form-control" />
+                <span asp-validation-for="DailyMonitor.Temperature" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyMonitor.Humidity" class="control-label"></label>
+                <input asp-for="DailyMonitor.Humidity" class="form-control" />
+                <span asp-validation-for="DailyMonitor.Humidity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

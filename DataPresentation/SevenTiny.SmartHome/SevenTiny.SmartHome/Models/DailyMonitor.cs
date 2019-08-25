@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SevenTiny.SmartHome.Models
 {
     public partial class DailyMonitor
     {
+        [Key]
         public int Id { get; set; }
         public DateTime DateTime { get; set; }
         public int? Year { get; set; }
