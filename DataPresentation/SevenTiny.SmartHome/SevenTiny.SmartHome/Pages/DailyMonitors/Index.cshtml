@@ -39,7 +39,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.DailyMonitor) {
+        @foreach (var item in Model.DailyMonitor)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DateTime)
@@ -68,6 +69,107 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+
+<section>
+    <div id="Temperature" style="max-width:800px;height:400px"></div>
+</section>
+
+<section>
+    <div id="Humidity" style="max-width:800px;height:400px"></div>
+</section>
+
+<script src="~/lib/Highcharts-7.1.3/code/highcharts.js"></script>
+<script>
+    var chart = Highcharts.chart('Temperature', {
+        title: {
+            text: '7tiny`s Home 温度概览'
+        },
+        subtitle: {
+            text: '数据来源：7tiny.com'
+        },
+        yAxis: {
+            title: {
+                text: '温度（°C）'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+        series: [{
+            name: '温度',
+            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+
+    var chart2 = Highcharts.chart('Humidity', {
+        title: {
+            text: '7tiny`s Home 湿度概览'
+        },
+        subtitle: {
+            text: '数据来源：7tiny.com'
+        },
+        yAxis: {
+            title: {
+                text: '湿度（%）'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+        series: [{
+            name: '温度',
+            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+</script>
