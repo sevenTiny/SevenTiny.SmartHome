@@ -18,7 +18,7 @@ class RelayBase(metaclass=abc.ABCMeta):
         GPIO.setwarnings(False)
         # 将引脚设置为输出模式
         for item in self.plist:
-            GPIO.setup(item, GPIO.OUT)
+            GPIO.setup(item, GPIO.OUT, initial=GPIO.HIGH)
 
     # 启动继电器
     def open(self, p):
@@ -26,7 +26,7 @@ class RelayBase(metaclass=abc.ABCMeta):
 
     # 关闭继电器
     def close(self, p):
-        GPIO.output(self.plist[p-1], GPIO.HIGN)
+        GPIO.output(self.plist[p-1], GPIO.HIGH)
 
 # 四针脚继电器控制类
 class Relay4(RelayBase):
