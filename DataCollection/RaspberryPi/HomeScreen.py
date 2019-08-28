@@ -20,14 +20,11 @@ y4 = Yang4(35, 16, 22, 32, 31, 36, 38, 33, 37, 12, 18, 40)
 delay = 600
 
 # 已经写入数据库的小时标识，插入数据的同时，修改为下一个小时，用于比较是否需要写入
-hasWriteToDbHour = 0
+hasWriteToDbHour = datetime.datetime.now().hour
 
 while(True):
     # time
     timenow = datetime.datetime.now()
-
-    if hasWriteToDbHour == 0:
-        hasWriteToDbHour = timenow.hour
 
     for i in range(0, delay):
         y4.Display(str(timenow.year))
