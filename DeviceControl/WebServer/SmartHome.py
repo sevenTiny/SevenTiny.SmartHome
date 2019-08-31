@@ -3,13 +3,15 @@ import configparser
 from GPIO.Relay import Relay4
 import sys
 sys.path.append('..')
+from flask_cors import *  # 导入模块
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)  # 设置跨域
 
 # get configuration
-# configPath = './SmartHome.ini'
 configPaht = '/7tiny/SevenTiny.SmartHome/DeviceControl/WebServer/SmartHome.ini'
 config = configparser.ConfigParser()
+# config.read('.\SmartHome.ini', encoding='UTF-8')
 config.read(configPaht, encoding='UTF-8')
 
 @app.route('/')
