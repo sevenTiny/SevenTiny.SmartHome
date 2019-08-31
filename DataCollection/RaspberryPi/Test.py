@@ -19,3 +19,5 @@ from GPIO.Relay import Relay4
 # conn.close()
 
 r4 = Relay4(11,13,15,29)
+r4.open(4)
+# r4.close(4)
