@@ -49,7 +49,7 @@ while(True):
     print('time:{0},humidity:{1}%,temperature:{2}*C'.format(
         datetime.datetime.now(), humidity, temperature))
 
-    # 后台线程将数据写入mysql
+    # 异步将数据写入mysql
     if hasWriteToDbHour == timenow.hour:
         _thread.start_new_thread(WriteToDb, (timenow, timenow.year,
                                              timenow.month, timenow.day, timenow.hour, temperature, humidity))
