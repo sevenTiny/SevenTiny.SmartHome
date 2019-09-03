@@ -57,6 +57,13 @@ def relay_control():
         print(str(err))
         return '0'
 
+# 监控web界面
+@app.route('/
+')
+def monitor():
+    return render_template("temperature.html")
+
+# 温度监控界面
 @app.route('/temperatureview')
 def temperature_view():
     return render_template("temperature.html")
