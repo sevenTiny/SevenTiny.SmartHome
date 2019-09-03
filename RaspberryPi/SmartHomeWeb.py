@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
+import datetime
+from Utility.MySqlHelper import MySqlHelper
+from flask import Flask, request, jsonify, render_template
+from flask_cors import *
 import configparser
 from GPIO.Relay import Relay4
 import sys
 sys.path.append('..')
-from flask_cors import *  # 导入模块
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)  # 设置跨域
@@ -14,10 +16,12 @@ config = configparser.ConfigParser()
 # config.read('.\SmartHome.ini', encoding='UTF-8')
 config.read(configPaht, encoding='UTF-8')
 
+# 测试接口
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return render_template("index.html")
 
+# 获取4路开关列表
 @app.route('/relaylist')
 def relay_view():
     returnList = []
@@ -29,6 +33,7 @@ def relay_view():
     return jsonify(returnList)
 
 
+# 控制4路继电器的状态，同时将开关状态写入配置文件
 @app.route('/relay')
 def relay_control():
     try:
@@ -46,11 +51,74 @@ def relay_control():
             # write to config
             config.set('Relay'+str(index), 'status', str(status))
             config.write(open(configPaht, "w"))
-            
+
         return '1'
     except Exception as err:
         print(str(err))
         return '0'
+
+@app.route('/temperatureview')
+def temperature_view():
+    return render_template("temperature.html")
+
+
+# 温度-当年平均
+@app.route('/temperature_current_year_avg')
+def temperature_current_year_avg():
+    smartHomeDb = MySqlHelper("SmartHome")
+    conn, cur = smartHomeDb.getConnAndCur()
+    timenow = datetime.datetime.now()
+    cur.execute("")
+    datas = cur.fetchall()
+
+    cur.close()
+    conn.close()
+    return jsonify({"": ""})
+
+# 温度-当月平均
+@app.route('/temperature_current_month_avg')
+def temperature_current_month_avg():
+    smartHomeDb = MySqlHelper("SmartHome")
+    conn, cur = smartHomeDb.getConnAndCur()
+    timenow = datetime.datetime.now()
+    cur.execute("")
+    datas = cur.fetchall()
+
+    cur.close()
+    conn.close()
+    return jsonify({"": ""})
+
+# 温度-本周
+@app.route('/temperature_current_week')
+def temperature_current_week():
+    smartHomeDb = MySqlHelper("SmartHome")
+    conn, cur = smartHomeDb.getConnAndCur()
+    timenow = datetime.datetime.now()
+    cur.execute("")
+    datas = cur.fetchall()
+
+    cur.close()
+    conn.close()
+    return jsonify({"": ""})
+
+# 温度-当日
+@app.route('/temperature_current_day')
+def temperature_current_day():
+    smartHomeDb = MySqlHelper("SmartHome")
+    conn, cur = smartHomeDb.getConnAndCur()
+    timenow = datetime.datetime.now()
+    cur.execute("SELECT `Hour`,Temperature FROM DailyMonitor WHERE Year="+str(timenow.year) +
+                " AND Month="+str(timenow.month)+" AND `Day`="+str(timenow.day)+" ORDER BY `Hour`")
+    datas = cur.fetchall()
+    hours = []
+    temperatures = []
+    for item in datas:
+        hours.append(item[0])
+        temperatures.append(item[1])
+
+    cur.close()
+    conn.close()
+    return jsonify({"hours": hours, "temperatures": temperatures})
 
 
 if __name__ == '__main__':

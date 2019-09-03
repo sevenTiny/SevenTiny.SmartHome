@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Dynamic Chart</title>
+
+	<!-- Main Styles -->
+	<link rel="stylesheet" href="../static/assets/styles/style.min.css">
+	<!-- Dark Themes -->
+	<link rel="stylesheet" href="../static/assets/styles/style-dark.min.css">
+</head>
+
+<body>
+	<div class="fixed-navbar">
+		<div class="pull-left">
+			<h1 class="page-title">家庭温湿度监控</h1>
+		</div>
+	</div>
+	<div id="wrapper">
+		<div class="main-content">
+			<div class="row small-spacing">
+				<div class="col-xs-12">
+					<div class="box-content">
+						<h4 class="box-title">当月温度</h4>
+						<!-- /.dropdown js__dropdown -->
+						<div id="container_current_month"></div>
+					</div>
+					<!-- /.box-content -->
+				</div>
+			</div>
+
+			<div class="row small-spacing">
+				<div class="col-xs-12">
+					<div class="box-content">
+						<h4 class="box-title">当日温度</h4>
+						<!-- /.dropdown js__dropdown -->
+						<div id="container_current_day"></div>
+					</div>
+					<!-- /.box-content -->
+				</div>
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div>
+
+	<script src="../static/assets/scripts/jquery.min.js"></script>
+
+	<!-- Hightcharts -->
+	<script src="../static/Highcharts-7.1.3/code/highcharts.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			//当月
+			Highcharts.chart('container_current_month', {
+				title: {
+					text: ''
+				},
+				legend: {
+					layout: 'horizontal',
+					align: 'center'
+				},
+
+				plotOptions: {
+					series: {
+					}
+				},
+				yAxis: {
+					title: {
+						text: '°C'
+					}
+				},
+				xAxis: {
+					categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+				},
+				series: [{
+					name: '温度',
+					data: [31.0, 31.0, 31.0, 31.0, 30.0, 30.0]
+				}]
+			})
+
+			//当日
+			$.ajax({
+				method: 'get',
+				url: '/temperature_current_day',
+				success: function (data) {
+					Highcharts.chart('container_current_day', {
+						title: {
+							text: ''
+						},
+						legend: {
+							layout: 'horizontal',
+							align: 'center'
+						},
+
+						plotOptions: {
+							series: {
+							}
+						},
+						yAxis: {
+							title: {
+								text: '°C'
+							}
+						},
+						xAxis: {
+							categories: data["hours"]
+						},
+						series: [{
+							name: '温度',
+							data: data["temperatures"]
+						}]
+					})
+				}
+			})
+
+		})//end - $(document).ready
+
+	</script>
+</body>
+
+</html>
