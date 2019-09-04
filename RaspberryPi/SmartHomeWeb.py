@@ -58,8 +58,7 @@ def relay_control():
         return '0'
 
 # 监控web界面
-@app.route('/
-')
+@app.route('/')
 def monitor():
     return render_template("temperature.html")
 
