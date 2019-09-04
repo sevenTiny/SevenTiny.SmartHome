@@ -16,14 +16,25 @@ config = configparser.ConfigParser()
 # config.read('.\SmartHome.ini', encoding='UTF-8')
 config.read(configPaht, encoding='UTF-8')
 
+
 # 测试接口
 @app.route('/')
 def hello_world():
     return render_template("index.html")
 
+
+# 智能开关 --------------------------------
+
+# view-智能开关页面
+@app.route('/smartbuttonview')
+def smartbutton_view():
+    return render_template("smart_button.html")
+
+# --- 接口 ---
+
 # 获取4路开关列表
 @app.route('/relaylist')
-def relay_view():
+def relay_list():
     returnList = []
     arr = config.get('Relay', 'relays').split(',')
     for item in arr:
@@ -31,7 +42,6 @@ def relay_view():
             'Relay'+item, 'index'), 'name': config.get(
             'Relay'+item, 'name'), 'status': config.get('Relay'+item, 'status')})
     return jsonify(returnList)
-
 
 # 控制4路继电器的状态，同时将开关状态写入配置文件
 @app.route('/relay')
@@ -57,16 +67,20 @@ def relay_control():
         print(str(err))
         return '0'
 
-# 监控web界面
-@app.route('/')
-def monitor():
+
+# 家庭十二时辰 --------------------------------
+
+# view-监控web界面
+@app.route('/monitorview')
+def monitor_view():
     return render_template("temperature.html")
 
-# 温度监控界面
+# view-温度监控界面
 @app.route('/temperatureview')
 def temperature_view():
     return render_template("temperature.html")
 
+# --- 接口 ---
 
 # 温度-当年平均
 @app.route('/temperature_current_year_avg')
@@ -125,6 +139,15 @@ def temperature_current_day():
     cur.close()
     conn.close()
     return jsonify({"hours": hours, "temperatures": temperatures})
+
+
+# 上帝之眼 --------------------------------
+
+# view-上帝之眼界面
+@app.route('/godeyeview')
+def godeye_view():
+    return render_template("index.html")
+
 
 
 if __name__ == '__main__':

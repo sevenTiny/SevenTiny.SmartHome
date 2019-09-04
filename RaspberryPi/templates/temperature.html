@@ -24,29 +24,26 @@
 	</div>
 	<div id="wrapper">
 		<div class="main-content">
+
 			<div class="row small-spacing">
 				<div class="col-xs-12">
 					<div class="box-content">
-						<h4 class="box-title">当月温度</h4>
-						<!-- /.dropdown js__dropdown -->
-						<div id="container_current_month"></div>
+						<h4 class="box-title">当日温度</h4>
+						<div id="container_current_day"></div>
 					</div>
-					<!-- /.box-content -->
 				</div>
 			</div>
 
 			<div class="row small-spacing">
 				<div class="col-xs-12">
 					<div class="box-content">
-						<h4 class="box-title">当日温度</h4>
-						<!-- /.dropdown js__dropdown -->
-						<div id="container_current_day"></div>
+						<h4 class="box-title">当月温度</h4>
+						<div id="container_current_month"></div>
 					</div>
-					<!-- /.box-content -->
 				</div>
 			</div>
+
 		</div>
-		<!-- /.main-content -->
 	</div>
 
 	<script src="../static/assets/scripts/jquery.min.js"></script>
@@ -57,34 +54,6 @@
 	<script>
 
 		$(document).ready(function () {
-
-			//当月
-			Highcharts.chart('container_current_month', {
-				title: {
-					text: ''
-				},
-				legend: {
-					layout: 'horizontal',
-					align: 'center'
-				},
-
-				plotOptions: {
-					series: {
-					}
-				},
-				yAxis: {
-					title: {
-						text: '°C'
-					}
-				},
-				xAxis: {
-					categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-				},
-				series: [{
-					name: '温度',
-					data: [31.0, 31.0, 31.0, 31.0, 30.0, 30.0]
-				}]
-			})
 
 			//当日
 			$.ajax({
@@ -118,6 +87,34 @@
 						}]
 					})
 				}
+			})
+
+			//当月
+			Highcharts.chart('container_current_month', {
+				title: {
+					text: ''
+				},
+				legend: {
+					layout: 'horizontal',
+					align: 'center'
+				},
+
+				plotOptions: {
+					series: {
+					}
+				},
+				yAxis: {
+					title: {
+						text: '°C'
+					}
+				},
+				xAxis: {
+					categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+				},
+				series: [{
+					name: '温度',
+					data: [31.0, 31.0, 31.0, 31.0, 30.0, 30.0]
+				}]
 			})
 
 		})//end - $(document).ready

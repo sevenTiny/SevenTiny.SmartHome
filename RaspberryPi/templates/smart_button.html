@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>smart button</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<!-- Main Styles -->
+	<link rel="stylesheet" href="../static/assets/styles/style.min.css">
+
+	<!-- Dark Themes -->
+	<link rel="stylesheet" href="../static/assets/styles/style-dark.min.css">
+	<style>
+		.switch {
+			margin-top: 25px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="fixed-navbar">
+		<div class="pull-left">
+			<h1 class="page-title">智能开关</h1>
+		</div>
+	</div>
+	<div id="wrapper">
+		<div class="main-content">
+			<div class="row row-inline-block small-spacing">
+				<div class="col-lg-4 col-xs-12">
+					<div class="box-content">
+						<h4 class="box-title">Smart 接线板</h4>
+						<div class="dropdown js__drop_down">
+						</div>
+						<div id="cbContainer">
+							<!-- <div class="switch success"><input type="checkbox" id="switch-1"
+                                    onchange="switchCb(1,2)"><label for="switch-1">桌灯</label></div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
+<script src="../static/assets/scripts/jquery.min.js"></script>
+<script type="text/javascript">
+	var piurl = ''
+	apiready = function () {
+		piurl = $api.getStorage('piurl')
+		$.ajax({
+			method: 'get',
+			url: '/relaylist',
+			success: function (data) {
+				console.log(data)
+				$("#cbContainer").html('')
+				for (i in data) {
+					var status = data[i].status
+					var checked = ''
+					if (status == '1')
+						checked = 'checked'
+					$("#cbContainer").append('<div class="switch success"><input type="checkbox" ' + checked + ' id="switch-' + data[i].index + '" onchange="switchCb(' + data[i].index + ')"><label for="switch-' + data[i].index + '">' + data[i].name + '</label></div>')
+				}
+			},
+			error: function (data) {
+				alert('piurl=' + piurl)
+			}
+		});
+	};
+
+	function switchCb(index) {
+		var cb = $("#switch-" + index).prop('checked')
+		var status = 0
+		if (cb) {
+			status = 1
+		}
+		$.ajax({
+			method: 'get',
+			url: '/relay?index=' + index + '&status=' + status,
+			success: function (data) {
+				console.log('operate success;index=' + index + ';status=' + status)
+			}
+		});
+	}
+</script>
