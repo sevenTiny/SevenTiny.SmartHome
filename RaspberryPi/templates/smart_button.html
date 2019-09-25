@@ -9,10 +9,8 @@
 	<meta name="author" content="">
 
 	<title>smart button</title>
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
 	<!-- Main Styles -->
 	<link rel="stylesheet" href="../static/assets/styles/style.min.css">
-
 	<!-- Dark Themes -->
 	<link rel="stylesheet" href="../static/assets/styles/style-dark.min.css">
 	<style>
@@ -50,9 +48,7 @@
 </html>
 <script src="../static/assets/scripts/jquery.min.js"></script>
 <script type="text/javascript">
-	var piurl = ''
-	apiready = function () {
-		piurl = $api.getStorage('piurl')
+	$(document).ready(function () {
 		$.ajax({
 			method: 'get',
 			url: '/relaylist',
@@ -68,10 +64,10 @@
 				}
 			},
 			error: function (data) {
-				alert('piurl=' + piurl)
+				log.error(data)
 			}
 		});
-	};
+	});
 
 	function switchCb(index) {
 		var cb = $("#switch-" + index).prop('checked')

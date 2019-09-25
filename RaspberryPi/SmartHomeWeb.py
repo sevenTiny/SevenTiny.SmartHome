@@ -70,15 +70,10 @@ def relay_control():
 
 # 家庭十二时辰 --------------------------------
 
-# view-监控web界面
-@app.route('/monitorview')
-def monitor_view():
-    return render_template("temperature.html")
-
 # view-温度监控界面
-@app.route('/temperatureview')
+@app.route('/dailymonitorview')
 def temperature_view():
-    return render_template("temperature.html")
+    return render_template("daily_monitor.html")
 
 # --- 接口 ---
 
@@ -88,12 +83,21 @@ def temperature_current_year_avg():
     smartHomeDb = MySqlHelper("SmartHome")
     conn, cur = smartHomeDb.getConnAndCur()
     timenow = datetime.datetime.now()
-    cur.execute("")
+    cur.execute("select t.`Month`,FORMAT(AVG(t.Temperature),2) as Temperature,FORMAT(AVG(t.Humidity),2) as Humidity from (SELECT `Month`,Temperature,Humidity FROM DailyMonitor WHERE Year=" +
+                str(timenow.year)+" ORDER BY `Month`) t GROUP BY t.`Month`")
     datas = cur.fetchall()
+
+    years = []
+    temperatures = []
+    humidities = []
+    for item in datas:
+        years.append(item[0])
+        temperatures.append(float(item[1]))
+        humidities.append(float(item[2]))
 
     cur.close()
     conn.close()
-    return jsonify({"": ""})
+    return jsonify({"years": years, "temperatures": temperatures, "humidities": humidities})
 
 # 温湿度-当月平均
 @app.route('/temperature_current_month_avg')
@@ -101,52 +105,21 @@ def temperature_current_month_avg():
     smartHomeDb = MySqlHelper("SmartHome")
     conn, cur = smartHomeDb.getConnAndCur()
     timenow = datetime.datetime.now()
-    cur.execute("SELECT `Day`,`Hour`,Temperature,Humidity FROM DailyMonitor WHERE Year="+str(timenow.year) +
-                " AND Month="+str(timenow.month)+" ORDER BY `Day`,`Hour`")
+    cur.execute("select t.`Day`,FORMAT(AVG(t.Temperature),2) as Temperature,FORMAT(AVG(t.Humidity),2) as Humidity from (SELECT `Day`,Temperature,Humidity FROM DailyMonitor WHERE Year=" +
+                str(timenow.year)+" AND Month="+str(timenow.month) + " ORDER BY `Day`, `Hour`) t GROUP BY t.`Day`")
     datas = cur.fetchall()
 
     days = []
     temperatures = []
     humidities = []
-
-    # 当前小时
-    currentHour = 0
-    # 今天总共的小时数目
-    currentDayHourCount = 0
-    # 当前天
-    currentday = 0
-    # 当天温度和
-    temperatureSum = 0
-    # 当天湿度和
-    humiditySum = 0
-
-    dataLen = len(datas)
     for item in datas:
-        if item[0] != currentday:
-            currentday = item[0]
-            days.append(currentday)
-            temperatureSum = [x[2] for x in datas if x[0] == currentday]
-            # 这里直接筛选当天的数据进行计算赋值
-        else:
-            pass
-        
+        days.append(item[0])
+        temperatures.append(float(item[1]))
+        humidities.append(float(item[2]))
 
     cur.close()
     conn.close()
     return jsonify({"days": days, "temperatures": temperatures, "humidities": humidities})
-
-# 温湿度-本周
-@app.route('/temperature_current_week')
-def temperature_current_week():
-    smartHomeDb = MySqlHelper("SmartHome")
-    conn, cur = smartHomeDb.getConnAndCur()
-    timenow = datetime.datetime.now()
-    cur.execute("")
-    datas = cur.fetchall()
-
-    cur.close()
-    conn.close()
-    return jsonify({"": ""})
 
 # 温湿度-当日
 @app.route('/temperature_current_day')
@@ -162,8 +135,8 @@ def temperature_current_day():
     humidities = []
     for item in datas:
         hours.append(item[0])
-        temperatures.append(item[1])
-        humidities.append(item[2])
+        temperatures.append(float(item[1]))
+        humidities.append(float(item[2]))
 
     cur.close()
     conn.close()
