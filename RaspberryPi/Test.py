@@ -27,9 +27,15 @@ from Utility.MySqlHelper import MySqlHelper
 
 # print(json.dumps(re))
 
-timenow = datetime.datetime.now()
+# smartHomeDb = MySqlHelper("SmartHome")
+# conn, cur = smartHomeDb.getConnAndCur()
+# timenow = datetime.datetime.now()
+# cur.execute("SELECT `Day`,`Hour`,Temperature,Humidity FROM DailyMonitor WHERE Year="+str(timenow.year) +
+#             " AND Month="+str(timenow.month)+" ORDER BY `Day`,`Hour`")
+            
+# datas = cur.fetchall()
 
-print(str(timenow.weekday))
+# print(json.dumps(datas))
 
 # timenow = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 # cur.execute("INSERT INTO DailyMonitor (DateTime,Year,Month,Temperature,Humidity) VALUES ('{0}',{1},{2})".format(timenow,51,31))

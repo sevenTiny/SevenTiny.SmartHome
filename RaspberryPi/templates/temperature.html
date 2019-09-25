@@ -28,7 +28,7 @@
 			<div class="row small-spacing">
 				<div class="col-xs-12">
 					<div class="box-content">
-						<h4 class="box-title">当日温度</h4>
+						<h4 class="box-title">当日温湿度</h4>
 						<div id="container_current_day"></div>
 					</div>
 				</div>
@@ -37,7 +37,7 @@
 			<div class="row small-spacing">
 				<div class="col-xs-12">
 					<div class="box-content">
-						<h4 class="box-title">当月温度</h4>
+						<h4 class="box-title">当月温湿度</h4>
 						<div id="container_current_month"></div>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 			//当日
 			$.ajax({
 				method: 'get',
-				url: '/temperature_current_day',
+				url: 'http://192.168.0.119:39901/temperature_current_day',
 				success: function (data) {
 					Highcharts.chart('container_current_day', {
 						title: {
@@ -75,16 +75,22 @@
 						},
 						yAxis: {
 							title: {
-								text: '°C'
+								text: ''
 							}
 						},
 						xAxis: {
 							categories: data["hours"]
 						},
-						series: [{
-							name: '温度',
-							data: data["temperatures"]
-						}]
+						series: [
+							{
+								name: '温度（°C）',
+								data: data["temperatures"]
+							},
+							{
+								name: '湿度（%）',
+								data: data["humidities"]
+							}
+						]
 					})
 				}
 			})

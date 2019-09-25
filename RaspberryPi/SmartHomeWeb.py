@@ -82,7 +82,7 @@ def temperature_view():
 
 # --- 接口 ---
 
-# 温度-当年平均
+# 温湿度-当年平均
 @app.route('/temperature_current_year_avg')
 def temperature_current_year_avg():
     smartHomeDb = MySqlHelper("SmartHome")
@@ -95,20 +95,47 @@ def temperature_current_year_avg():
     conn.close()
     return jsonify({"": ""})
 
-# 温度-当月平均
+# 温湿度-当月平均
 @app.route('/temperature_current_month_avg')
 def temperature_current_month_avg():
     smartHomeDb = MySqlHelper("SmartHome")
     conn, cur = smartHomeDb.getConnAndCur()
     timenow = datetime.datetime.now()
-    cur.execute("")
+    cur.execute("SELECT `Day`,`Hour`,Temperature,Humidity FROM DailyMonitor WHERE Year="+str(timenow.year) +
+                " AND Month="+str(timenow.month)+" ORDER BY `Day`,`Hour`")
     datas = cur.fetchall()
+
+    days = []
+    temperatures = []
+    humidities = []
+
+    # 当前小时
+    currentHour = 0
+    # 今天总共的小时数目
+    currentDayHourCount = 0
+    # 当前天
+    currentday = 0
+    # 当天温度和
+    temperatureSum = 0
+    # 当天湿度和
+    humiditySum = 0
+
+    dataLen = len(datas)
+    for item in datas:
+        if item[0] != currentday:
+            currentday = item[0]
+            days.append(currentday)
+            temperatureSum = [x[2] for x in datas if x[0] == currentday]
+            # 这里直接筛选当天的数据进行计算赋值
+        else:
+            pass
+        
 
     cur.close()
     conn.close()
-    return jsonify({"": ""})
+    return jsonify({"days": days, "temperatures": temperatures, "humidities": humidities})
 
-# 温度-本周
+# 温湿度-本周
 @app.route('/temperature_current_week')
 def temperature_current_week():
     smartHomeDb = MySqlHelper("SmartHome")
@@ -121,24 +148,26 @@ def temperature_current_week():
     conn.close()
     return jsonify({"": ""})
 
-# 温度-当日
+# 温湿度-当日
 @app.route('/temperature_current_day')
 def temperature_current_day():
     smartHomeDb = MySqlHelper("SmartHome")
     conn, cur = smartHomeDb.getConnAndCur()
     timenow = datetime.datetime.now()
-    cur.execute("SELECT `Hour`,Temperature FROM DailyMonitor WHERE Year="+str(timenow.year) +
+    cur.execute("SELECT `Hour`,Temperature,Humidity FROM DailyMonitor WHERE Year="+str(timenow.year) +
                 " AND Month="+str(timenow.month)+" AND `Day`="+str(timenow.day)+" ORDER BY `Hour`")
     datas = cur.fetchall()
     hours = []
     temperatures = []
+    humidities = []
     for item in datas:
         hours.append(item[0])
         temperatures.append(item[1])
+        humidities.append(item[2])
 
     cur.close()
     conn.close()
-    return jsonify({"hours": hours, "temperatures": temperatures})
+    return jsonify({"hours": hours, "temperatures": temperatures, "humidities": humidities})
 
 
 # 上帝之眼 --------------------------------
@@ -147,7 +176,6 @@ def temperature_current_day():
 @app.route('/godeyeview')
 def godeye_view():
     return render_template("index.html")
-
 
 
 if __name__ == '__main__':
