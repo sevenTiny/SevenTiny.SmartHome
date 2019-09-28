@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>smart button</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="../res/assets/styles/style.min.css">
+
+    <!-- Dark Themes -->
+    <link rel="stylesheet" href="../res/assets/styles/style-dark.min.css">
+    <style>
+        .switch {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="fixed-navbar">
+        <div class="pull-left">
+            <h1 class="page-title">设置</h1>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div class="main-content">
+            <div class="row small-spacing">
+                <div class="col-lg-6 col-xs-12">
+                    <div class="box-content card white">
+                        <h4 class="box-title">基础设置</h4>
+                        <!-- /.box-title -->
+                        <div class="card-content">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="input1" class="col-sm-2 control-label">Server Address</label>
+                                    <div class="col-sm-10">
+                                        <input type="url" class="form-control" id="input1" placeholder="http://www.example.com:1111">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input1" class="col-sm-2 control-label">License(许可证书)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input2" placeholder="abc123">
+                                    </div>
+                                </div>
+                                <div class="form-group margin-bottom-0">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="button" class="btn btn-info btn-sm waves-effect waves-light" onclick="save()">保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+        $api.dom('#input1').value = $api.getStorage('piurl');
+        $api.dom('#input2').value = $api.getStorage('license');
+    };
+
+    function save() {
+        $api.setStorage('piurl',$("#input1").val());
+        $api.setStorage('license',$("#input2").val());
+        alert('保存成功！')
+    }
+</script>
